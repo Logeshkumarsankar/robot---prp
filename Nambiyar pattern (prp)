@@ -1,0 +1,65 @@
+import java.util.*;
+import java.io.*;
+public class MyClass {
+   
+    public static void idgen(int[] a,int n)
+    {
+        String str="";
+        int sum=0,j=0,k=0;
+        String s="12345678";
+        int n=s.length();
+        char[] c=s.toCharArray();
+        for(int i=0;i<n;i++)
+        {
+            int x=Character.getNumericValue(c[i]);
+            if(x%2==1)
+            {
+                for(j=i;j<n;j++)
+                {
+                    sum=sum+Character.getNumericValue(c[j]);;
+                    if(sum%2==0)
+                    {
+                        i=j;                        
+                        break;
+                    }
+                }
+                str=str+Integer.toString(sum);
+                sum=0;
+                if(j==s.length())
+                    break;
+            }
+            else
+            {
+                for(int j=i;j<n;j++)
+                {
+                    sum=sum+Character.getNumericValue(c[j]);
+                    if(sum%2==1)
+                    {
+                        i=j;
+                        break;
+                    }
+                }
+                str=str+Integer.toString(sum);
+                sum=0;
+                if(j==s.length())
+                    break;
+            }
+           
+        }
+        System.out.println("The nambiyar pattern ans is "+str);
+       
+    }
+   
+    public static void main(String args[]) {
+   
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int[] a=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            a[i]=sc.nextInt();
+        }
+       
+        idgen(a,n);
+    }
+}
