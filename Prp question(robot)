@@ -1,0 +1,212 @@
+1) // by Switch case:
+
+import java.util.Scanner;
+public class Robot {
+    public static void main(String[] args) {
+    
+    int x=3;
+    int y=4;
+    String str1="2-2-E";
+    String str2="R M L M L M R M";
+    String ans=mvr(x,y,str1,str2);
+    System.out.println("The result is:"+ans);
+   }
+   
+   public static String mvr(int in1,int in2, String in3, String in4)
+   {
+     
+     
+     int x=0;
+     int y=0;
+     x=in1;
+     y=in2;
+    int cx=0,cy=0;
+    String ans="";
+    char dir;
+    int flag=0;
+    String pos[]=in3.split("-");
+    cx=Integer.valueOf(pos[0]);
+    cy=Integer.valueOf(pos[1]);
+    dir=pos[2].charAt(0);
+    
+    char arr[]=in4.toCharArray();
+    
+    for(int i=0;i<in4.length();i++)
+    {
+      char ch=arr[i];
+      switch(ch)
+      {
+        case 'R':
+          if(dir=='N')
+             dir='E';
+          else if(dir=='E')
+              dir='S';
+          else if(dir=='S')
+            dir='W';
+          else
+             dir='N';
+          
+          break;
+        
+        case 'L':
+          if(dir=='N')
+             dir='W';
+          else if(dir=='W')
+              dir='S';
+          else if(dir=='S')
+            dir='E';
+          else
+             dir='N';
+          
+          break;
+        
+        case 'M':  
+         
+          if(cx<=x && cy<=y && cx>=0 && cy>=0)
+          {
+            if(dir=='N')
+              cy++;
+            else if(dir=='E')
+              cx++;
+            else if(dir=='S')
+              cy--;
+            else
+              cx--;
+  
+          }
+           if(cx>x || cy>y || cx<0 || cy<0)
+          {
+            if(dir=='N')
+              cy--;
+            else if(dir=='E')
+              cx--;
+            else if(dir=='S')
+              cy++;
+            else
+              cx++;
+              
+              flag=1;
+          }
+          break;
+      }
+      if(flag==1)
+      {
+        break;
+      }
+    }
+    ans+=String.valueOf(cx)+"-"+String.valueOf(cy)+"-"+dir;
+    
+    if(flag==1)
+    {
+      ans+="-ER";
+    }
+    return ans;
+   }
+}
+
+---------------------------------
+
+2) //By MAP AND KEY: 
+
+
+package prp1;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class day3 {
+
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in);
+String s=sc.nextLine();
+String m=sc.nextLine();
+int x=sc.nextInt();
+int y=sc.nextInt();
+sc.close();
+String outp=moveRobot(x,y,s,m);
+System.out.println(outp);
+}
+public static String moveRobot(int input1,int input2,String input3,String input4) {
+Map<Integer,String> dm=new HashMap<Integer,String>();
+dm.put(1,"N");
+dm.put(2,"E");
+dm.put(3, "S");
+dm.put(4, "W");
+String temp[]=input3.split("-");
+Integer c_x=Integer.parseInt(temp[0]);
+Integer c_y=Integer.parseInt(temp[1]);
+Integer c_d=0;
+for (Map.Entry<Integer,String> entry : dm.entrySet()) {
+if (temp[2].equals(entry.getValue())) {
+c_d=entry.getKey();
+}
+}
+    temp=input4.split(" ");
+    for(String temp1:temp)
+    {
+   
+    if(temp1.equals("R"))
+    {
+    c_d=isMoveDirection(c_d,1);
+    }
+    else if(temp1.equals("L"))
+    {
+    c_d=isMoveDirection(c_d,-1);
+    }
+    else if(temp1.equals("M"))
+    {
+    if(dm.get(c_d).equals("E"))
+    {
+    if(c_x+1<=input1)
+    c_x+=1;
+    else
+    return c_x+"-"+c_y+"-"+"E"+"-ER";
+   
+    }
+    else if(dm.get(c_d).equals("S"))
+    {
+    if(c_y-1>=0)
+    c_y-=1;
+    else
+    return c_x+"-"+c_y+"-"+"S"+"-ER";
+   
+    }
+    else if(dm.get(c_d).equals("W"))
+    {
+    if(c_x-1>=0)
+    c_x-=1;
+    else
+    return c_x+"-"+c_y+"-"+"W"+"-ER";
+   
+    }
+    else
+    {
+    if(c_y+1<=input2)
+    c_y+=1;
+    else
+    return c_x+"-"+c_y+"-"+"N"+"-ER";
+    }
+    }
+    }
+ return c_x+"-"+c_y+"-"+dm.get(c_d);
+}
+public static Integer isMoveDirection(Integer c_d,Integer s)
+{
+if(s>0)
+{
+if(c_d == 4)
+return 1;
+return c_d+s;
+}
+else
+{
+if(c_d==1)
+return 4;
+return c_d+s;
+}
+}
+}
+
+
